@@ -1,0 +1,195 @@
+<!doctype html>
+<!-- https://www.polymer-project.org/docs/start/tutorial/step-3.html -->
+<html>
+
+<head>
+
+	<title>Unicoder</title>
+
+	<meta name="viewport"
+		content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+	<meta charset='utf-8'>
+	<script src="../components/webcomponentsjs/webcomponents.js"></script>
+	<link rel="import" href="../components/font-roboto/roboto.html">
+	<link rel="import" href="../components/core-header-panel/core-header-panel.html">
+	<link rel="import" href="../components/core-selector/core-selector.html">
+	<link rel="import" href="../components/paper-tabs/paper-tabs.html">
+	<link rel="import" href="../components/paper-input/paper-input.html">
+	<link rel="import" href="../components/paper-item/paper-item.html">
+	<link rel="import" href="../components/paper-button/paper-button.html">
+	<link rel="import" href="../components/paper-shadow/paper-shadow.html">
+
+	<style>
+	html,body {
+		color: #212121;
+		height: 100%;
+		margin: 0;
+		background-color: #E5E5E5;
+		font-family: 'RobotoDraft', sans-serif;
+	}
+	h2 {
+		padding-left: 2ex;
+	}
+	core-header-panel {
+		height: 100%;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+	}
+	core-toolbar {
+		background: #03a9f4;
+		color: white;
+	}
+	#tabs {
+		width: 100%;
+		margin: 0;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+		text-transform: uppercase;
+	}
+	.container {
+		width: 90%;
+		margin: 50px auto;
+	}
+	paper-input{
+		width: 90%;
+		font-size: 2.5ex;
+	}
+	paper-item {
+		color: #121212;
+	}
+	#clearButton {
+		background-color: #F44336;
+		color: #FFF;
+		padding: 1ex;
+		margin: 2ex;
+		font-size: 1.8ex;
+	}
+	#submitButton {
+		background-color: #4CAF50;
+		color: #FFF;
+		padding: 1ex;
+		margin: 2ex;
+		font-size: 1.8ex;
+	}
+	.resulting {
+		padding: 1ex;
+		margin: 1ex;
+		font-size: 2ex;
+	}
+	@media (min-width: 481px) {
+		#tabs {
+			width: 200px;
+		}
+		.container {
+			width: 500px;
+		}
+	}
+	</style>
+
+</head>
+
+<body unresolved>
+
+	<core-header-panel>
+		<core-toolbar>
+			<h2>Unicoder</h2>
+		</core-toolbar>
+
+		<div class="container" layout vertical center>
+			<paper-input id="textInput" floatinglabel label="Enter Some Text"></paper-input>
+
+			<div layout horizontal center>
+				<paper-button id="submitButton" raised>Submit</paper-button>
+				<paper-button id="clearButton" raised>Clear</paper-button>
+			</div>
+			<paper-shadow id="coreMenu">
+
+			</paper-shadow>
+		</div>
+	</core-header-panel>
+
+	<script>
+var original  = "! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ";
+var dicos = [
+"! \" # $ % & ' ( ) * + , - . / 0 ⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ : ; < = > ? @ ⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵ [ \\ ] ^ _ ` ⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵ { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ",
+"! \" # $ % & ' ( ) * + , - . / 0 ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ : ; < = > ? @ Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ [ \\ ] ^ _ ` ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ ",
+"！ \" ＃ ＄ ％ ＆ ＇ （ ） ＊ ＋ ， － ． ／ ０ １ ２ ３ ４ ５ ６ ７ ８ ９ ： ； < ＝ > ？ ＠ Ａ Ｂ Ｃ Ｄ Ｅ Ｆ Ｇ Ｈ Ｉ Ｊ Ｋ Ｌ Ｍ Ｎ Ｏ Ｐ Ｑ Ｒ Ｓ Ｔ Ｕ Ｖ Ｗ Ｘ Ｙ Ｚ [ \\ ] ^ _ ` ａ ｂ ｃ ｄ ｅ ｆ ｇ ｈ ｉ ｊ ｋ ｌ ｍ ｎ ｏ ｐ ｑ ｒ ｓ ｔ ｕ ｖ ｗ ｘ ｙ ｚ { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 𝟘 𝟙 𝟚 𝟛 𝟜 𝟝 𝟞 𝟟 𝟠 𝟡 : ; < = > ? @ 𝔸 𝔹 ℂ 𝔻 𝔼 𝔽 𝔾 ℍ 𝕀 𝕁 𝕂 𝕃 𝕄 ℕ 𝕆 ℙ ℚ ℝ 𝕊 𝕋 𝕌 𝕍 𝕎 𝕏 𝕐 ℤ [ \\ ] ^ _ ` 𝕒 𝕓 𝕔 𝕕 𝕖 𝕗 𝕘 𝕙 𝕚 𝕛 𝕜 𝕝 𝕞 𝕟 𝕠 𝕡 𝕢 𝕣 𝕤 𝕥 𝕦 𝕧 𝕨 𝕩 𝕪 𝕫 { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 𝟎 𝟏 𝟐 𝟑 𝟒 𝟓 𝟔 𝟕 𝟖 𝟗 : ; < = > ? @ 𝐀 𝐁 𝐂 𝐃 𝐄 𝐅 𝐆 𝐇 𝐈 𝐉 𝐊 𝐋 𝐌 𝐍 𝐎 𝐏 𝐐 𝐑 𝐒 𝐓 𝐔 𝐕 𝐖 𝐗 𝐘 𝐙 [ \\ ] ^ _ ` 𝐚 𝐛 𝐜 𝐝 𝐞 𝐟 𝐠 𝐡 𝐢 𝐣 𝐤 𝐥 𝐦 𝐧 𝐨 𝐩 𝐪 𝐫 𝐬 𝐭 𝐮 𝐯 𝐰 𝐱 𝐲 𝐳 { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ 𝑨 𝑩 𝑪 𝑫 𝑬 𝑭 𝑮 𝑯 𝑰 𝑱 𝑲 𝑳 𝑴 𝑵 𝑶 𝑷 𝑸 𝑹 𝑺 𝑻 𝑼 𝑽 𝑾 𝑿 𝒀 𝒁 [ \\ ] ^ _ ` 𝒂 𝒃 𝒄 𝒅 𝒆 𝒇 𝒈 𝒉 𝒊 𝒋 𝒌 𝒍 𝒎 𝒏 𝒐 𝒑 𝒒 𝒓 𝒔 𝒕 𝒖 𝒗 𝒘 𝒙 𝒚 𝒛 { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - ܁ / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ ค ๒ ƈ ɗ ﻉ ि ﻭ ɦ ٱ ﻝ ᛕ ɭ ๓ ก ѻ ρ ۹ ɼ ร Շ પ ۷ ฝ ซ ץ չ [ \\ ] ^ _ ` ค ๒ ƈ ɗ ﻉ ि ﻭ ɦ ٱ ﻝ ᛕ ɭ ๓ ก ѻ ρ ۹ ɼ ร Շ પ ۷ ฝ ซ ץ չ { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ α в ¢ ∂ є ƒ ﻭ н ι נ к ℓ м η σ ρ ۹ я ѕ т υ ν ω χ у չ [ \\ ] ^ _ ` α в ¢ ∂ є ƒ ﻭ н ι נ к ℓ м η σ ρ ۹ я ѕ т υ ν ω χ у չ { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ ค ๒ ς ๔ є Ŧ ﻮ ђ เ ן к ɭ ๓ ภ ๏ ק ợ г ร Շ ย ש ฬ א ץ չ [ \\ ] ^ _ ` ค ๒ ς ๔ є Ŧ ﻮ ђ เ ן к ɭ ๓ ภ ๏ ק ợ г ร Շ ย ש ฬ א ץ չ { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , ⸚ . / 0 1 2 ӟ 4 5 6 7 8 9 : ; < = > ? @ Ä Ḅ Ċ Ḋ Ё Ḟ Ġ Ḧ Ї J Ḳ Ḷ Ṁ Ṅ Ö Ṗ Q Ṛ Ṡ Ṫ Ü Ṿ Ẅ Ẍ Ÿ Ż [ \\ ] ^ _ ` ä ḅ ċ ḋ ë ḟ ġ ḧ ï j ḳ ḷ ṁ ṅ ö ṗ q ṛ ṡ ẗ ü ṿ ẅ ẍ ÿ ż { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ Á B Ć D É F Ǵ H í J Ḱ Ĺ Ḿ Ń Ő Ṕ Q Ŕ ś T Ű V Ẃ X Ӳ Ź [ \\ ] ^ _ ` á b ć d é f ǵ h í j ḱ ĺ ḿ ń ő ṕ q ŕ ś t ú v ẃ x ӳ ź { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ ᴀ ʙ ᴄ ᴅ ᴇ ꜰ ɢ ʜ ɪ ᴊ ᴋ ʟ ᴍ ɴ ᴏ ᴩ Q ʀ ꜱ ᴛ ᴜ ᴠ ᴡ x Y ᴢ [ \\ ] ^ _ ` ᴀ ʙ ᴄ ᴅ ᴇ ꜰ ɢ ʜ ɪ ᴊ ᴋ ʟ ᴍ ɴ ᴏ ᴩ q ʀ ꜱ ᴛ ᴜ ᴠ ᴡ x y ᴢ { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 1 ƻ 3 4 5 6 7 8 9 : ; < = > ? @ Ⱥ Ƀ Ȼ Đ Ɇ F Ǥ Ħ Ɨ Ɉ Ꝁ Ł M N Ø Ᵽ Ꝗ Ɍ S Ŧ ᵾ V W X Ɏ Ƶ [ \\ ] ^ _ ` Ⱥ ƀ ȼ đ ɇ f ǥ ħ ɨ ɉ ꝁ ł m n ø ᵽ ꝗ ɍ s ŧ ᵾ v w x ɏ ƶ { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ ﾑ 乃 c d 乇 ｷ g ん ﾉ ﾌ ズ ﾚ ﾶ 刀 o ｱ q 尺 丂 ｲ u √ w ﾒ ﾘ 乙 [ \\ ] ^ _ ` ﾑ 乃 c d 乇 ｷ g ん ﾉ ﾌ ズ ﾚ ﾶ 刀 o ｱ q 尺 丂 ｲ u √ w ﾒ ﾘ 乙 { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ Д Б Ҁ ↁ Є F Б Н І Ј Ќ L М И Ф Р Q Я Ѕ Г Ц V Щ Ж Ч Z [ \\ ] ^ _ ` а ъ с ↁ э f Б Ђ і ј к l м и о р q ѓ ѕ т ц v ш х Ў z { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"¡ \" # $ % ⅋ , ( ) * + ‘ - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ¿ @ ɐ q ɔ p ǝ ɟ ƃ ɥ ı ɾ ʞ ן ɯ u o d b ɹ s ʇ n 𐌡 ʍ x ʎ z [ \\ ] ^ _ ` ɐ q ɔ p ǝ ɟ ƃ ɥ ı ɾ ʞ ן ɯ u o d b ɹ s ʇ n ʌ ʍ x ʎ z { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+"! \" # $ % & ' ( ) * + , - . / 0 ߁ 2 3 4 5 6 7 8 9 : ⁏ < = > ⸮ @ A d Ↄ b Ǝ ꟻ G H I J K ⅃ M ᴎ O ꟼ p ᴙ Ꙅ T U V W X Y Z [ \\ ] ^ _ ` A d ↄ b ɘ ꟻ g H i j k l m ᴎ o q p ᴙ ꙅ T U v w x Y z { | } ∽ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ­ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º » ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö ÷ ø ù ú û ü ý þ",
+];
+
+function preg_quote(str, delimiter) {
+  return String(str)
+    .replace(new RegExp('[.\\\\+*?\\[\\^\\]$(){}=<>|:\\' + (delimiter || '') + '-]', 'g'), '\\$&');
+}
+
+String.prototype.tr = function(from, to) {
+	var fromChars = from.split(" ");
+	var toChars = to.split(" ");
+	var mapTable = {};
+	for (var i in fromChars) {
+		fromChars[i] = preg_quote(fromChars[i]);
+		toChars[i]   = preg_quote(toChars[i]);
+	}
+
+	for(i = 0; i < fromChars.length; i++) {
+		var c = i < toChars.length ? toChars[i] : "";
+		mapTable[fromChars[i]] = c;
+	}
+
+	var str = this;
+	var re = new RegExp(fromChars.join("|"), "g");
+	str = str.replace(re, function(c) {
+		return mapTable[c];
+	});
+
+	return str;
+};
+
+
+function outputAllDict(inputString) {
+	var outputDict = [];
+	for (var i in dicos) {
+		outputDict.push(inputString.tr(original, dicos[i]));
+	}
+	return outputDict;
+}
+var textInput = document.querySelector("#textInput");
+var clearButton = document.querySelector("#clearButton");
+var coreMenu = document.querySelector("#coreMenu");
+var submitButton = document.querySelector("#submitButton");
+
+clearButton.onclick = function(e) {
+	textInput.value = "";
+};
+submitButton.onclick = function(e) {
+	var theText = textInput.value;
+	textInput.value = "";
+	var result = outputAllDict(theText);
+	coreMenu.innerHTML = "";
+	for (var i in result) {
+		coreMenu.innerHTML += "<paper-shadow class='resulting'>"+result[i]+"</paper-shadow>";
+	}
+	copyToClipboard("banana");
+}
+
+
+	</script>
+
+</body>
+
+</html>
