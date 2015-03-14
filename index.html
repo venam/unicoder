@@ -139,11 +139,11 @@ function preg_quote(str, delimiter) {
 
 String.prototype.tr = function(from, to) {
 	var fromChars = from.split(" ");
+	var fromChars_preg = [];
 	var toChars = to.split(" ");
 	var mapTable = {};
 	for (var i in fromChars) {
-		fromChars[i] = preg_quote(fromChars[i]);
-		toChars[i]   = preg_quote(toChars[i]);
+		fromChars_preg[i] = preg_quote(fromChars[i]);
 	}
 
 	for(i = 0; i < fromChars.length; i++) {
@@ -152,8 +152,9 @@ String.prototype.tr = function(from, to) {
 	}
 
 	var str = this;
-	var re = new RegExp(fromChars.join("|"), "g");
+	var re = new RegExp(fromChars_preg.join("|"), "g");
 	str = str.replace(re, function(c) {
+		console.log(c);
 		return mapTable[c];
 	});
 
@@ -184,7 +185,6 @@ submitButton.onclick = function(e) {
 	for (var i in result) {
 		coreMenu.innerHTML += "<paper-shadow class='resulting'>"+result[i]+"</paper-shadow>";
 	}
-	copyToClipboard("banana");
 }
 
 
